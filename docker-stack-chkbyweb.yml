@@ -1,24 +1,24 @@
-version: "3"
-# Created by Joynal Abedin. This is a docker-stack.yml file.
-
-
-
 version: '3'
-services:
-  
+service:
   redis:
     image: redis
     networks:
       - back-end
     volumes:
-        - "redis-data:/var/lib/redis"
+      - redis-data:/var/lib/redis
+    deploy:
+      replicas: 1
 
   db:
     image: postgres:9.4
     networks:
         - back-end
     volumes:
-        - "db-data:/var/lib/postgresql/data"
+      - db-data:/var/lib/postgresql/data
+    deploy:
+          replicas: 1
+          placement:
+            constraints: [node.role == manager]
 
   vote:
     image: voting-app
@@ -27,6 +27,10 @@ services:
     networks:
         - back-end
         - front-end
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2  
 
   result:
     image: result-app
@@ -35,11 +39,18 @@ services:
     networks:
         - back-end
         - front-end
+    deploy:
+          replicas: 1
 
   worker:
     image: worker-app
     networks:
         - back-end
+    deploy:
+          replicas: 1
+          restart_policy:
+            condition: on-failure
+            delay: 10s
 
 networks:
   front-end:

@@ -1,0 +1,37 @@
+Installing docker ce on ubuntu.
+FROM  DOCKER DOCS: https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1
+Docker home dir:  /var/lib/docker
+
+INSTALL DOCKER CE
+Update the apt package index.
+
+$ sudo apt-get update
+Install the latest version of Docker CE, or go to the next step to install a specific version:
+
+$ sudo apt-get install docker-ce
+Got multiple Docker repositories?
+
+If you have multiple Docker repositories enabled, installing or updating without specifying a version in the apt-get install or apt-get update command always installs the highest possible version, which may not be appropriate for your stability needs.
+
+To install a specific version of Docker CE, list the available versions in the repo, then select and install:
+
+a. List the versions available in your repo:
+
+$ apt-cache madison docker-ce
+
+docker-ce | 18.03.0~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages
+b. Install a specific version by its fully qualified package name, which is package name (docker-ce) “=” version string (2nd column), for example, docker-ce=18.03.0~ce-0~ubuntu.
+
+$ sudo apt-get install docker-ce=<VERSION>
+The Docker daemon starts automatically.
+
+Verify that Docker CE is installed correctly by running the hello-world image.
+
+$ sudo docker run hello-world
+This command downloads a test image and runs it in a container. When the container runs, it prints an informational message and exits.
+
+Docker CE is installed and running. The docker group is created but no users are added to it. You need to use sudo to run Docker commands. Continue to Linux postinstall to allow non-privileged users to run Docker commands and for other optional configuration steps.
+*******************************************************
+
+UPGRADE DOCKER CE
+To upgrade Docker CE, first run sudo apt-get update, then follow the installation instructions, choosing the new version you want to install.
